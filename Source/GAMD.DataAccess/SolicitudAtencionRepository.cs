@@ -7,7 +7,7 @@ namespace GAMD.DataAccess
 {
     public class SolicitudAtencionRepository : Singleton<SolicitudAtencionRepository>
     {
-        #region Attributes
+        #region Attributos
 
         private readonly Database _database = new DatabaseProviderFactory().Create("DefaultConnection");
 
