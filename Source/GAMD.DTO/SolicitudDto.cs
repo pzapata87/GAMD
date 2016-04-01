@@ -2,6 +2,7 @@
 {
     public class SolicitudDto
     {
+        public int ClienteId { get; set; }
         public string Direccion { get; set; }
         public string TipoServicioId { get; set; }
         public string EspecialidadId { get; set; }

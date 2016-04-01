@@ -5,6 +5,7 @@ namespace GAMD.Business.Entity
     public class SolicitudAtencion
     {
         public int Id { get; set; }
+        public int ClienteId { get; set; }
         public string Direccion { get; set; }
         public DateTime FechaSolicitud { get; set; }
         public string ServicioId { get; set; }
