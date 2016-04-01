@@ -28,13 +28,15 @@ namespace GAMD.DataAccess
 
                 using (var lector = _database.ExecuteReader(comando))
                 {
-                    if (lector.Read())
+                    while (lector.Read())
                     {
                         list.Add(new Especialista
                         {
-                            Nombre = lector.IsDBNull(lector.GetOrdinal("Nombre")) ? string.Empty : lector.GetString(lector.GetOrdinal("Nombre")),
-                            Apellido = lector.IsDBNull(lector.GetOrdinal("Apellido")) ? string.Empty : lector.GetString(lector.GetOrdinal("Apellido")),
-                            Direccion = lector.IsDBNull(lector.GetOrdinal("Direccion")) ? string.Empty : lector.GetString(lector.GetOrdinal("Direccion"))
+                            Nombre = lector.GetString(lector.GetOrdinal("Nombre")),
+                            Apellido = lector.GetString(lector.GetOrdinal("Apellido")),
+                            Direccion = lector.GetString(lector.GetOrdinal("Direccion")),
+                            Latitud = lector.GetDecimal(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetDecimal(lector.GetOrdinal("Longitud"))
                         });
                     }
                 }

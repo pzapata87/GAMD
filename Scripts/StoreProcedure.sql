@@ -4,17 +4,14 @@ CREATE PROCEDURE [dbo].[Get_Especialistas]
 	@Radio INT -- KM
 AS    
 BEGIN
-	SELECT 
-			Nombre,
-			Apellido,
-			Direccion
-		FROM Especialista
-		where (6371 *  
-			ACOS(  
-				COS(RADIANS(@Latitud))  
-				*  COS(RADIANS(Latitud))  
-				*  COS(RADIANS(Longitud) - RADIANS(@Longitud) )  
-				+  SIN(RADIANS(@Latitud))  
-				*  SIN(RADIANS(Latitud ))  
-			)) <= @Radio
+	SELECT *
+	FROM Especialista
+	where (6371 *  
+		ACOS(  
+			COS(RADIANS(@Latitud))  
+			*  COS(RADIANS(Latitud))  
+			*  COS(RADIANS(Longitud) - RADIANS(@Longitud) )  
+			+  SIN(RADIANS(@Latitud))  
+			*  SIN(RADIANS(Latitud ))  
+		)) <= @Radio
 END
