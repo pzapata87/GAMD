@@ -8,13 +8,13 @@ namespace GAMD.WebApi.Controllers
 {
     public class ClienteController : BaseController
     {
-        [HttpGet]
-        public JsonResponse GetUserCliente(string username, string password)
+        [HttpPost]
+        public JsonResponse GetUserCliente(LoginDto login)
         {
             var jsonResponse = new JsonResponse { Success = false };
             try
             {
-                var user = ClienteBL.Instancia.GetUserCliente(username, password);
+                var user = ClienteBL.Instancia.GetUserCliente(login.Username, login.Password);
                 if (user !=null)
                 {
                     jsonResponse.Success = true;

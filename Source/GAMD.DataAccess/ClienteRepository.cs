@@ -21,8 +21,8 @@ namespace GAMD.DataAccess
 
             using (var comando = _database.GetStoredProcCommand("Get_UserCliente"))
             {
-                _database.AddInParameter(comando, "@Username", DbType.Decimal, username);
-                _database.AddInParameter(comando, "@Password", DbType.Decimal, password);
+                _database.AddInParameter(comando, "@Username", DbType.String, username);
+                _database.AddInParameter(comando, "@Password", DbType.String, password);
 
                 using (var lector = _database.ExecuteReader(comando))
                 {

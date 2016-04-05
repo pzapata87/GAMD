@@ -150,6 +150,7 @@
     <Compile Include="Core\CorsHandler.cs" />
     <Compile Include="Core\Mensajes.cs" />
     <Compile Include="Core\SimplePostVariableParameterBinding.cs" />
+    <Compile Include="Core\UtilsComun.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
