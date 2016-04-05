@@ -6,9 +6,14 @@ namespace GAMD.Business.Logic
 {
     public class SolicitudAtencionBL : Singleton<SolicitudAtencionBL>
     {
-        public void Add(SolicitudAtencion solicitud)
+        public int Add(SolicitudAtencion solicitud)
         {
-            SolicitudAtencionRepository.Instancia.Add(solicitud);
+            return SolicitudAtencionRepository.Instancia.Add(solicitud);
+        }
+
+        public void AsignarMedico(SolicitudAtencion solicitud)
+        {
+            SolicitudAtencionRepository.Instancia.AsignarMedico(solicitud);
         }
     }
 }

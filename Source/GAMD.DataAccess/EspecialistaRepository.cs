@@ -32,6 +32,7 @@ namespace GAMD.DataAccess
                     {
                         list.Add(new Especialista
                         {
+                            Id = lector.GetInt32(lector.GetOrdinal("Id")),
                             Nombre = lector.GetString(lector.GetOrdinal("Nombre")),
                             Apellido = lector.GetString(lector.GetOrdinal("Apellido")),
                             Direccion = lector.GetString(lector.GetOrdinal("Direccion")),

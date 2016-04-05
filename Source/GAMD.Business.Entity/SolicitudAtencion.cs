@@ -10,5 +10,10 @@ namespace GAMD.Business.Entity
         public DateTime FechaSolicitud { get; set; }
         public string ServicioId { get; set; }
         public string Sintomas { get; set; }
+        public int EspecialistaId { get; set; }
+        public string EspecialistaNombre { get; set; }
+        public DateTime FechaCita { get; set; }
+        public decimal Latitud { get; set; }
+        public decimal Longitud { get; set; }
     }
 }
