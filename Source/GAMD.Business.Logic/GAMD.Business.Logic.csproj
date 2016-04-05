@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ClienteBL.cs" />
     <Compile Include="EspecialistaBL.cs" />
+    <Compile Include="NotificacionBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolicitudAtencionBL.cs" />
   </ItemGroup>

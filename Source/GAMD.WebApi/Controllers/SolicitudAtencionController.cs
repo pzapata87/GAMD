@@ -23,7 +23,7 @@ namespace GAMD.WebApi.Controllers
             var jsonResponse = new JsonResponse { Success = false };
             try
             {
-                //Colocar en AutoMapper;
+                //TODO:Colocar en AutoMapper;
                 var solicitud = new SolicitudAtencion
                 {
                     ServicioId = solicitudDto.ServicioId,
@@ -44,7 +44,7 @@ namespace GAMD.WebApi.Controllers
                 jsonResponse.Data = list;
 
                 // Se crea una tarea para asignar un médico a la solicitud
-                Task.Run(() => AsignarMedico(solicitud, solicitudDto.CodigoGCM, list));
+                Task.Run(() => AsignarMedico(solicitud, list));
             }
             catch (Exception ex)
             {
@@ -54,21 +54,29 @@ namespace GAMD.WebApi.Controllers
             return jsonResponse;
         }
 
-        private void AsignarMedico(SolicitudAtencion solicitud, string codigoGCM, List<Especialista> especialistaList)
+        private void AsignarMedico(SolicitudAtencion solicitud, List<Especialista> especialistaList)
         {
             try
             {
                 if (especialistaList != null)
                 {
-                    //TODO: Poner el criterio de selección del especialista
-                    var especialistaSel = especialistaList.First();
-                    solicitud.EspecialistaId = especialistaSel.Id;
+                    var notificacion = NotificacionBL.Instancia.GetByUsername(solicitud.ClienteUserName);
+                    if (notificacion != null)
+                    {
+                        //TODO: Poner el criterio de selección del especialista
+                        var especialistaSel = especialistaList.First();
+                        solicitud.EspecialistaId = especialistaSel.Id;
 
-                    SolicitudAtencionBL.Instancia.AsignarMedico(solicitud);
+                        SolicitudAtencionBL.Instancia.AsignarMedico(solicitud);
 
-                    var response = EnviarNotificacion(solicitud, codigoGCM);
-                    if (!response.Success)
-                        throw new Exception(response.Message);
+                        var response = EnviarNotificacion(solicitud, notificacion.CodigoGcm);
+                        if (!response.Success)
+                            throw new Exception(response.Message);
+                    }
+                    else
+                    {
+                        throw new Exception(Mensajes.NoExisteCodigoGcm);
+                    }
                 }
             }
             catch (Exception ex)
@@ -77,18 +85,20 @@ namespace GAMD.WebApi.Controllers
             }
         }
 
-        private JsonResponse EnviarNotificacion(SolicitudAtencion solicitud, string codigoGCM)
+        private JsonResponse EnviarNotificacion(SolicitudAtencion solicitud, string codigoGcm)
         {
             var jsonResponse = new JsonResponse { Success = false };
             string GCM_URL = ConfigurationManager.AppSettings.Get("GCM_URL");
-            string collapseKey = DateTime.Now.ToString();
-            Dictionary<string, string> data = new Dictionary<string, string>
+            string collapseKey = DateTime.Now.GetDateTime(false);
+
+            //TODO: colocar la informacion de la solicitud
+            var data = new Dictionary<string, string>
             {
                 {"data.msg", HttpUtility.UrlEncode("Solicitud: " + solicitud.Id)}
             };
 
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("registration_id={0}&collapse_key={1}", codigoGCM, collapseKey);
+            var sb = new StringBuilder();
+            sb.AppendFormat("registration_id={0}&collapse_key={1}", codigoGcm, collapseKey);
 
             foreach (string item in data.Keys)
             {
@@ -97,7 +107,7 @@ namespace GAMD.WebApi.Controllers
             }
 
             string msg = sb.ToString();
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(GCM_URL);
+            var req = (HttpWebRequest)WebRequest.Create(GCM_URL);
             req.Method = "POST";
             req.ContentLength = msg.Length;
             req.ContentType = "application/x-www-form-urlencoded";
@@ -105,14 +115,14 @@ namespace GAMD.WebApi.Controllers
             string apiKey = ConfigurationManager.AppSettings.Get("ApiKey");
             req.Headers.Add("Authorization:key=" + apiKey);
 
-            using (StreamWriter oWriter = new StreamWriter(req.GetRequestStream()))
+            using (var oWriter = new StreamWriter(req.GetRequestStream()))
             {
                 oWriter.Write(msg);
             }
 
-            using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
+            using (var resp = (HttpWebResponse)req.GetResponse())
             {
-                using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
+                using (var sr = new StreamReader(resp.GetResponseStream()))
                 {
                     string respData = sr.ReadToEnd();
                     jsonResponse.Data = respData;

@@ -146,6 +146,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\EspecialistaController.cs" />
+    <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\SolicitudAtencionController.cs" />
     <Compile Include="Core\CorsHandler.cs" />
     <Compile Include="Core\Mensajes.cs" />

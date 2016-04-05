@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ClienteRepository.cs" />
     <Compile Include="EspecialistaRepository.cs" />
+    <Compile Include="NotificacionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolicitudAtencionRepository.cs" />
   </ItemGroup>
