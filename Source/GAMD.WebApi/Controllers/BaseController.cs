@@ -19,6 +19,11 @@ namespace GAMD.WebApi.Controllers
             Logger.Error(string.Format("Mensaje: {0} Trace: {1}", exception.Message, exception.StackTrace));
         }
 
+        protected void LogError(string mensaje)
+        {
+            Logger.Error(mensaje);
+        }
+
         /// <summary>  
         /// Override the Json Result with Max integer JSON lenght  
         /// </summary>  

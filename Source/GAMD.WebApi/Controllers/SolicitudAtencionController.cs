@@ -32,7 +32,8 @@ namespace GAMD.WebApi.Controllers
                     FechaSolicitud = DateTime.Now,
                     ClienteId = solicitudDto.ClienteId,
                     Latitud = solicitudDto.Latitud,
-                    Longitud = solicitudDto.Longitud
+                    Longitud = solicitudDto.Longitud,
+                    ClienteUserName = solicitudDto.ClienteUserName
                 };
 
                 int id = SolicitudAtencionBL.Instancia.Add(solicitud);
@@ -66,6 +67,7 @@ namespace GAMD.WebApi.Controllers
                         //TODO: Poner el criterio de selección del especialista
                         var especialistaSel = especialistaList.First();
                         solicitud.EspecialistaId = especialistaSel.Id;
+                        solicitud.EspecialistaNombre = string.Format("{0} {1}",especialistaSel.Nombre, especialistaSel.Apellido);
 
                         SolicitudAtencionBL.Instancia.AsignarMedico(solicitud);
 
@@ -90,11 +92,17 @@ namespace GAMD.WebApi.Controllers
             var jsonResponse = new JsonResponse { Success = false };
             string GCM_URL = ConfigurationManager.AppSettings.Get("GCM_URL");
             string collapseKey = DateTime.Now.GetDateTime(false);
+            LogError("codigoGcm = " + codigoGcm);
+
+            string mensaje = string.Format("Estimado {0}, su solicitud ha sido aceptada. Le atenderá el Dr. {1}. Gracias", solicitud.ClienteUserName, solicitud.EspecialistaNombre);
+            LogError("message = " + mensaje);
+            LogError("requestCode = " + solicitud.Id.ToString());
 
             //TODO: colocar la informacion de la solicitud
             var data = new Dictionary<string, string>
             {
-                {"data.msg", HttpUtility.UrlEncode("Solicitud: " + solicitud.Id)}
+                {"data.message", HttpUtility.UrlEncode(mensaje)},
+                {"data.requestCode", solicitud.Id.ToString()}
             };
 
             var sb = new StringBuilder();
@@ -125,6 +133,7 @@ namespace GAMD.WebApi.Controllers
                 using (var sr = new StreamReader(resp.GetResponseStream()))
                 {
                     string respData = sr.ReadToEnd();
+                    LogError("respData = " + respData);
                     jsonResponse.Data = respData;
                     if (resp.StatusCode == HttpStatusCode.OK)   // OK = 200
                     {
@@ -141,7 +150,7 @@ namespace GAMD.WebApi.Controllers
                         jsonResponse.Message = "Error: " + resp.StatusCode;
                 }
             }
-
+            LogError("jsonResponse.message = " + jsonResponse.Message);
             return jsonResponse;
         }
     }
