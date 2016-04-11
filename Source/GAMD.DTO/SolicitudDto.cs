@@ -1,4 +1,6 @@
-﻿namespace GAMD.DTO
+﻿using System;
+
+namespace GAMD.DTO
 {
     public class SolicitudDto
     {
@@ -11,5 +13,6 @@
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public string ClienteUserName { get; set; }
+        public DateTime FechaCita { get; set; }
     }
 }

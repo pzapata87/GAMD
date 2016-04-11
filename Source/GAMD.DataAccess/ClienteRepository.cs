@@ -35,7 +35,7 @@ namespace GAMD.DataAccess
                             Nombre = lector.GetString(lector.GetOrdinal("Nombre")),
                             Apellido = lector.GetString(lector.GetOrdinal("Apellido")),
                             Celular = lector.GetString(lector.GetOrdinal("Celular")),
-                            Estado = lector.GetInt32(lector.GetOrdinal("Estado")),
+                            Estado = lector.GetInt32(lector.GetOrdinal("Estado"))
                         };
                     }
                 }

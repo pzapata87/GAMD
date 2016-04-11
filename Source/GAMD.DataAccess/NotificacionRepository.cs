@@ -37,7 +37,7 @@ namespace GAMD.DataAccess
         {
             Notificacion notificacion = null;
 
-            using (var comando = _database.GetStoredProcCommand("Notificacion_GetByUsername"))
+            using (var comando = _database.GetStoredProcCommand("GetByUsername_Notificacion"))
             {
                 _database.AddInParameter(comando, "@Username", DbType.String, username);
 

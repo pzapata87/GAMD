@@ -33,7 +33,8 @@ namespace GAMD.WebApi.Controllers
                     ClienteId = solicitudDto.ClienteId,
                     Latitud = solicitudDto.Latitud,
                     Longitud = solicitudDto.Longitud,
-                    ClienteUserName = solicitudDto.ClienteUserName
+                    ClienteUserName = solicitudDto.ClienteUserName,
+                    FechaCita = solicitudDto.FechaCita
                 };
 
                 int id = SolicitudAtencionBL.Instancia.Add(solicitud);
@@ -64,8 +65,7 @@ namespace GAMD.WebApi.Controllers
                     var notificacion = NotificacionBL.Instancia.GetByUsername(solicitud.ClienteUserName);
                     if (notificacion != null)
                     {
-                        //TODO: Poner el criterio de selección del especialista
-                        var especialistaSel = especialistaList.First();
+                        var especialistaSel = especialistaList.OrderByDescending(p => p.Calificacion).First();
                         solicitud.EspecialistaId = especialistaSel.Id;
                         solicitud.EspecialistaNombre = string.Format("{0} {1}",especialistaSel.Nombre, especialistaSel.Apellido);
 
