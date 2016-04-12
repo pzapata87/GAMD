@@ -23,6 +23,11 @@ namespace GAMD.WebApi.Controllers
             var jsonResponse = new JsonResponse { Success = false };
             try
             {
+                var fechaStr = solicitudDto.FechaAtencion.Trim().Split('/');
+                var añoHoraStr = fechaStr[2].Split(' ');
+                var fechaCita = new DateTime(Convert.ToInt32(añoHoraStr[0]), Convert.ToInt32(fechaStr[1]),
+                    Convert.ToInt32(fechaStr[0]));
+
                 //TODO:Colocar en AutoMapper;
                 var solicitud = new SolicitudAtencion
                 {
@@ -34,7 +39,7 @@ namespace GAMD.WebApi.Controllers
                     Latitud = solicitudDto.Latitud,
                     Longitud = solicitudDto.Longitud,
                     ClienteUserName = solicitudDto.ClienteUserName,
-                    FechaCita = solicitudDto.FechaCita
+                    FechaCita = fechaCita
                 };
 
                 int id = SolicitudAtencionBL.Instancia.Add(solicitud);
@@ -94,11 +99,13 @@ namespace GAMD.WebApi.Controllers
             string collapseKey = DateTime.Now.GetDateTime(false);
             LogError("codigoGcm = " + codigoGcm);
 
-            string mensaje = string.Format("Estimado {0}, su solicitud ha sido aceptada. Le atenderá el Dr. {1}. Gracias", solicitud.ClienteUserName, solicitud.EspecialistaNombre);
+            string mensaje =
+                string.Format(
+                    " Estimado {0}, su solicitud ha sido aceptada.\n Le atenderá el Dr. {1}.\n Su cita se realizará el {2}.\n\n Gracias.",
+                    solicitud.ClienteUserName, solicitud.EspecialistaNombre, solicitud.FechaCita.GetDateTime(false));
             LogError("message = " + mensaje);
-            LogError("requestCode = " + solicitud.Id.ToString());
+            LogError("requestCode = " + solicitud.Id);
 
-            //TODO: colocar la informacion de la solicitud
             var data = new Dictionary<string, string>
             {
                 {"data.message", HttpUtility.UrlEncode(mensaje)},

@@ -13,6 +13,6 @@ namespace GAMD.DTO
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
         public string ClienteUserName { get; set; }
-        public DateTime FechaCita { get; set; }
+        public string FechaAtencion { get; set; }
     }
 }
