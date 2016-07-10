@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Http;
 using GAMD.Business.Entity;
 using GAMD.Business.Logic;
+using GAMD.Common;
 using GAMD.DTO;
 using GAMD.WebApi.Core;
 
@@ -21,45 +22,97 @@ namespace GAMD.WebApi.Controllers
         public JsonResponse CrearSolicitud(SolicitudDto solicitudDto)
         {
             var jsonResponse = new JsonResponse { Success = false };
+
             try
             {
-                var fechaStr = solicitudDto.FechaAtencion.Trim().Split('/');
-                var añoHoraStr = fechaStr[2].Split(' ');
-                var fechaCita = new DateTime(Convert.ToInt32(añoHoraStr[0]), Convert.ToInt32(fechaStr[1]),
-                    Convert.ToInt32(fechaStr[0]));
+                var citaPendiente = SolicitudAtencionBL.Instancia.GetCita(solicitudDto.ClienteId);
 
-                //TODO:Colocar en AutoMapper;
-                var solicitud = new SolicitudAtencion
+                if (citaPendiente == null)
                 {
-                    ServicioId = solicitudDto.ServicioId,
-                    Direccion = solicitudDto.Direccion,
-                    Sintomas = solicitudDto.Sintomas,
-                    FechaSolicitud = DateTime.Now,
-                    ClienteId = solicitudDto.ClienteId,
-                    Latitud = solicitudDto.Latitud,
-                    Longitud = solicitudDto.Longitud,
-                    ClienteUserName = solicitudDto.ClienteUserName,
-                    FechaCita = fechaCita
-                };
+                    var fechaStr = solicitudDto.FechaAtencion.Trim().Split('/');
+                    var añoHoraStr = fechaStr[2].Split(' ');
+                    var fechaCita = new DateTime(Convert.ToInt32(añoHoraStr[0]), Convert.ToInt32(fechaStr[1]),
+                        Convert.ToInt32(fechaStr[0]));
 
-                int id = SolicitudAtencionBL.Instancia.Add(solicitud);
-                solicitud.Id = id;
-                jsonResponse.Success = true;
+                    //TODO:Colocar en AutoMapper;
+                    var solicitud = new SolicitudAtencion
+                    {
+                        ServicioId = solicitudDto.ServicioId,
+                        Direccion = solicitudDto.Direccion,
+                        Sintomas = solicitudDto.Sintomas,
+                        FechaSolicitud = DateTime.Now,
+                        ClienteId = solicitudDto.ClienteId,
+                        Latitud = solicitudDto.Latitud,
+                        Longitud = solicitudDto.Longitud,
+                        ClienteUserName = solicitudDto.ClienteUserName,
+                        FechaCita = fechaCita
+                    };
 
-                int radio = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Radio"));
-                var list = EspecialistaBL.Instancia.GetEspecialistas(solicitud.Latitud, solicitud.Longitud, radio);
-                jsonResponse.Data = list;
+                    int id = SolicitudAtencionBL.Instancia.Add(solicitud);
+                    solicitud.Id = id;
+                    jsonResponse.Success = true;
 
-                // Se crea una tarea para asignar un médico a la solicitud
-                Task.Run(() => AsignarMedico(solicitud, list));
+                    int radio = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Radio"));
+                    var list = EspecialistaBL.Instancia.GetEspecialistas(solicitud.Latitud, solicitud.Longitud, radio);
+                    jsonResponse.Data = list;
+
+                    // Se crea una tarea para asignar un médico a la solicitud
+                    Task.Run(() => AsignarMedico(solicitud, list));
+                }
+                else
+                {
+                    jsonResponse.Message = Mensajes.SolicitudPendiente;
+                    jsonResponse.Data = citaPendiente;
+                }
             }
             catch (Exception ex)
             {
                 LogError(ex);
                 jsonResponse.Message = Mensajes.IntenteloMasTarde;
             }
+
             return jsonResponse;
         }
+
+        [HttpPost]
+        public JsonResponse CancelarCita(int solicitudId)
+        {
+            var jsonResponse = new JsonResponse { Success = false };
+
+            try
+            {
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Cancelada.GetNumberValue());
+                jsonResponse.Success = true;
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return jsonResponse;
+        }
+
+        [HttpPost]
+        public JsonResponse FinalizarCita(int solicitudId)
+        {
+            var jsonResponse = new JsonResponse { Success = false };
+
+            try
+            {
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Finalizada.GetNumberValue());
+                jsonResponse.Success = true;
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return jsonResponse;
+        }
+
+        #region Metodos Privados
 
         private void AsignarMedico(SolicitudAtencion solicitud, List<Especialista> especialistaList)
         {
@@ -160,5 +213,7 @@ namespace GAMD.WebApi.Controllers
             LogError("jsonResponse.message = " + jsonResponse.Message);
             return jsonResponse;
         }
+
+        #endregion
     }
 }

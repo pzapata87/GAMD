@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GAMD.DTO
+﻿namespace GAMD.DTO
 {
     public class SolicitudDto
     {

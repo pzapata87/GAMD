@@ -15,35 +15,6 @@ namespace GAMD.DataAccess
 
         #region Métodos
 
-        public Usuario GetUserCliente(string username, string password)
-        {
-            Usuario usuario = null;
-
-            using (var comando = _database.GetStoredProcCommand("Get_UserCliente"))
-            {
-                _database.AddInParameter(comando, "@Username", DbType.String, username);
-                _database.AddInParameter(comando, "@Password", DbType.String, password);
-
-                using (var lector = _database.ExecuteReader(comando))
-                {
-                    if (lector.Read())
-                    {
-                        usuario = new Usuario
-                        {
-                            Id = lector.GetInt32(lector.GetOrdinal("Id")),
-                            Username = lector.GetString(lector.GetOrdinal("Username")),
-                            Nombre = lector.GetString(lector.GetOrdinal("Nombre")),
-                            Apellido = lector.GetString(lector.GetOrdinal("Apellido")),
-                            Celular = lector.GetString(lector.GetOrdinal("Celular")),
-                            Estado = lector.GetInt32(lector.GetOrdinal("Estado"))
-                        };
-                    }
-                }
-            }
-
-            return usuario;
-        }
-
-        #endregion  
+        #endregion
     }
 }

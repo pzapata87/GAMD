@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8AABA7
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAMD.Common", "Source\GAMD.Common\GAMD.Common.csproj", "{45174146-70F1-4797-AFF5-E7E0DFC834C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{F9F2C4FB-D764-45B5-BDB7-87896A72FFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9F2C4FB-D764-45B5-BDB7-87896A72FFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9F2C4FB-D764-45B5-BDB7-87896A72FFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45174146-70F1-4797-AFF5-E7E0DFC834C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45174146-70F1-4797-AFF5-E7E0DFC834C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45174146-70F1-4797-AFF5-E7E0DFC834C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45174146-70F1-4797-AFF5-E7E0DFC834C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{E3B42125-4D94-4C7F-B4A3-60CB96C8820D} = {14CA62FF-6C1B-422B-8928-ECDBBA9EB07E}
 		{F52A0EBA-F1D4-47F8-B75F-CBF7FF6DDF2D} = {14CA62FF-6C1B-422B-8928-ECDBBA9EB07E}
 		{F9F2C4FB-D764-45B5-BDB7-87896A72FFFD} = {14CA62FF-6C1B-422B-8928-ECDBBA9EB07E}
+		{45174146-70F1-4797-AFF5-E7E0DFC834C6} = {14CA62FF-6C1B-422B-8928-ECDBBA9EB07E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45

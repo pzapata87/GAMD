@@ -37,6 +37,49 @@ namespace GAMD.DataAccess
             return id;
         }
 
+        public void UpdateEstado(int solicitudId, int estadoSolicitud)
+        {
+            using (var comando = _database.GetStoredProcCommand("Update_EstadoSolicitudAtencion"))
+            {
+                _database.AddInParameter(comando, "@Id", DbType.Int32, solicitudId);
+                _database.AddInParameter(comando, "@EstadoSolicitud", DbType.Int32, estadoSolicitud);
+
+                _database.ExecuteNonQuery(comando);
+            }
+        }
+
+        public SolicitudAtencion GetCita(int clienteId)
+        {
+            SolicitudAtencion solicitud = null;
+
+            using (var comando = _database.GetStoredProcCommand("Get_CitaAtencion"))
+            {
+                _database.AddInParameter(comando, "@ClienteId", DbType.Int32, clienteId);
+
+                using (var lector = _database.ExecuteReader(comando))
+                {
+                    if (lector.Read())
+                    {
+                        solicitud = new SolicitudAtencion
+                        {
+                            Id = lector.GetInt32(lector.GetOrdinal("Id")),
+                            NumSolicitud = lector.GetString(lector.GetOrdinal("NumSolicitud")),
+                            Direccion = lector.GetString(lector.GetOrdinal("Direccion")),
+                            ServicioId = lector.GetString(lector.GetOrdinal("ServicioId")),
+                            Sintomas = lector.GetString(lector.GetOrdinal("Sintomas")),
+                            FechaSolicitud = lector.GetDateTime(lector.GetOrdinal("FechaSolicitud")),
+                            EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
+                            FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
+                            Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetInt32(lector.GetOrdinal("Longitud"))
+                        };
+                    }
+                }
+            }
+
+            return solicitud;
+        }
+
         public void AsignarMedico(SolicitudAtencion solicitud)
         {
             using (var comando = _database.GetStoredProcCommand("AsignarMedico_SolicitudAtencion"))

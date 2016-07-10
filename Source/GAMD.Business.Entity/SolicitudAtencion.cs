@@ -7,6 +7,7 @@ namespace GAMD.Business.Entity
         public int Id { get; set; }
         public int ClienteId { get; set; }
         public string ClienteUserName { get; set; }
+        public string NumSolicitud { get; set; }
         public string Direccion { get; set; }
         public DateTime FechaSolicitud { get; set; }
         public string ServicioId { get; set; }
@@ -16,5 +17,6 @@ namespace GAMD.Business.Entity
         public DateTime FechaCita { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }
+        public int EstadoSolicitud { get; set; }
     }
 }

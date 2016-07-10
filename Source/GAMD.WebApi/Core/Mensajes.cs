@@ -7,5 +7,6 @@
         public static string RegistroSatisfactorio = "Se realizó el registro satisfactoriamente";
         public static string RegistroFallido = "No se pudo realizar el registro";
         public static string NoExisteCodigoGcm = "No existe código GCM para el usuario";
+        public static string SolicitudPendiente = "No puede registrar un nueva solicitud, ya que existe una solicitud pendiente";
     }
 }

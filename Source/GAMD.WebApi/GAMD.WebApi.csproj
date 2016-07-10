@@ -148,6 +148,7 @@
     <Compile Include="Controllers\EspecialistaController.cs" />
     <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\SolicitudAtencionController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Core\CorsHandler.cs" />
     <Compile Include="Core\Mensajes.cs" />
     <Compile Include="Core\SimplePostVariableParameterBinding.cs" />
@@ -182,6 +183,10 @@
     <ProjectReference Include="..\GAMD.Business.Logic\GAMD.Business.Logic.csproj">
       <Project>{e3b42125-4d94-4c7f-b4a3-60cb96c8820d}</Project>
       <Name>GAMD.Business.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GAMD.Common\GAMD.Common.csproj">
+      <Project>{45174146-70f1-4797-aff5-e7e0dfc834c6}</Project>
+      <Name>GAMD.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\GAMD.DTO\GAMD.DTO.csproj">
       <Project>{f9f2c4fb-d764-45b5-bdb7-87896a72fffd}</Project>

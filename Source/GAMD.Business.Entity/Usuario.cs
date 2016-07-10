@@ -4,9 +4,10 @@
     {
         public int Id { get; set; }
         public string Username { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Celular { get; set; }
+        public string Password { get; set; }
+        public int PersonaId { get; set; }
         public int Estado { get; set; }
+
+        public virtual Persona Persona { get; set; }
     }
 }
