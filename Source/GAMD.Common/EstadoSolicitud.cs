@@ -3,7 +3,8 @@
     public enum EstadoSolicitud
     {
         Pendiente = 1,
-        Cancelada = 2,
-        Finalizada = 3
+        Activa = 2,
+        Cancelada = 3,
+        Finalizada = 4
     }
 }

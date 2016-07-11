@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClienteRepository.cs" />
+    <Compile Include="EncuestaRepository.cs" />
     <Compile Include="EspecialistaRepository.cs" />
     <Compile Include="NotificacionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

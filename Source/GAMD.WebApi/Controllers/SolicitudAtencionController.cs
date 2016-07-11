@@ -94,6 +94,26 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
+        public JsonResponse ConfirmarLlegadaCita(int solicitudId)
+        {
+            var jsonResponse = new JsonResponse { Success = false };
+
+            try
+            {
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Activa.GetNumberValue());
+                jsonResponse.Success = true;
+                //TODo: Enviar Notificacion al cliente
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return jsonResponse;
+        }
+
+        [HttpPost]
         public JsonResponse FinalizarCita(int solicitudId)
         {
             var jsonResponse = new JsonResponse { Success = false };
@@ -102,6 +122,26 @@ namespace GAMD.WebApi.Controllers
             {
                 SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Finalizada.GetNumberValue());
                 jsonResponse.Success = true;
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return jsonResponse;
+        }
+
+        [HttpPost]
+        public JsonResponse GetSolicitudesPendientes(int especialistaId)
+        {
+            var jsonResponse = new JsonResponse { Success = false };
+
+            try
+            {
+                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Pendiente.GetNumberValue(), especialistaId);
+                jsonResponse.Success = true;
+                jsonResponse.Data = list;
             }
             catch (Exception ex)
             {

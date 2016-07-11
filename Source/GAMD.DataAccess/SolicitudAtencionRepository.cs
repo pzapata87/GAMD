@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System;
+using System.Collections.Generic;
 using EDOSwit.Entity;
 using GAMD.Business.Entity;
 using Microsoft.Practices.EnterpriseLibrary.Data;
@@ -78,6 +79,39 @@ namespace GAMD.DataAccess
             }
 
             return solicitud;
+        }
+
+        public List<SolicitudAtencion> GetSolicitudes(int estadoSolicitud, int especialistaId)
+        {
+            var list = new List<SolicitudAtencion>();
+
+            using (var comando = _database.GetStoredProcCommand("Get_SolicitudesAtencion"))
+            {
+                _database.AddInParameter(comando, "@EstadoSolicitud", DbType.Int32, estadoSolicitud);
+                _database.AddInParameter(comando, "@EspecialistaId", DbType.Int32, especialistaId);
+
+                using (var lector = _database.ExecuteReader(comando))
+                {
+                    while (lector.Read())
+                    {
+                        list.Add(new SolicitudAtencion
+                        {
+                            Id = lector.GetInt32(lector.GetOrdinal("Id")),
+                            NumSolicitud = lector.GetString(lector.GetOrdinal("NumSolicitud")),
+                            Direccion = lector.GetString(lector.GetOrdinal("Direccion")),
+                            ServicioId = lector.GetString(lector.GetOrdinal("ServicioId")),
+                            Sintomas = lector.GetString(lector.GetOrdinal("Sintomas")),
+                            FechaSolicitud = lector.GetDateTime(lector.GetOrdinal("FechaSolicitud")),
+                            EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
+                            FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
+                            Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetInt32(lector.GetOrdinal("Longitud"))
+                        });
+                    }
+                }
+            }
+
+            return list;
         }
 
         public void AsignarMedico(SolicitudAtencion solicitud)

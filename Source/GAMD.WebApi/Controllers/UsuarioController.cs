@@ -12,6 +12,7 @@ namespace GAMD.WebApi.Controllers
         public JsonResponse GetUsuario(LoginDto login)
         {
             var jsonResponse = new JsonResponse { Success = false };
+
             try
             {
                 var user = UsuarioBL.Instancia.GetUser(login.Username, login.Password);
@@ -30,6 +31,7 @@ namespace GAMD.WebApi.Controllers
                 LogError(ex);
                 jsonResponse.Message = Mensajes.IntenteloMasTarde;
             }
+
             return jsonResponse;
         }
     }
