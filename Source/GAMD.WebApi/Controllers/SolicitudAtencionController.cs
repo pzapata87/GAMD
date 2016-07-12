@@ -94,14 +94,26 @@ namespace GAMD.WebApi.Controllers
         [HttpPost]
         public JsonResponse ConfirmarLlegadaCita(int solicitudId)
         {
-            var jsonResponse = new JsonResponse { Success = false };
+            var jsonResponse = new JsonResponse {Success = false};
 
             try
             {
                 SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Activa.GetNumberValue(), null);
-                var cliente = SolicitudAtencionBL.Instancia.GetCita(solicitudId);
+                var cita = SolicitudAtencionBL.Instancia.GetCita(solicitudId);
+
+                var notificacion = NotificacionBL.Instancia.GetByUsername(cita.ClienteUserName);
+                if (notificacion != null)
+                {
+                    string msj = string.Format(" Estimado {0}, su médico {1}.\n acaba de llegar para su cita pactada.",
+                        cita.ClienteNombre, cita.EspecialistaNombre);
+                    EnviarNotificacion(cita.Id, msj, notificacion.CodigoGcm);
+                }
+                else
+                {
+                    LogError(string.Format("{0} {1}", Mensajes.NoExisteCodigoGcm, cita.ClienteUserName));
+                }
+
                 jsonResponse.Success = true;
-                //TODo: Enviar Notificacion al cliente
             }
             catch (Exception ex)
             {
@@ -120,6 +132,19 @@ namespace GAMD.WebApi.Controllers
             try
             {
                 SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Finalizada.GetNumberValue(), observacion);
+                var cita = SolicitudAtencionBL.Instancia.GetCita(solicitudId);
+
+                var notificacion = NotificacionBL.Instancia.GetByUsername(cita.ClienteUserName);
+                if (notificacion != null)
+                {
+                    string msj = string.Format(" Estimado {0}, su cita a finalizado.", cita.ClienteNombre);
+                    EnviarNotificacion(cita.Id, msj, notificacion.CodigoGcm);
+                }
+                else
+                {
+                    LogError(string.Format("{0} {1}", Mensajes.NoExisteCodigoGcm, cita.ClienteUserName));
+                }
+
                 jsonResponse.Success = true;
             }
             catch (Exception ex)
@@ -188,7 +213,12 @@ namespace GAMD.WebApi.Controllers
 
                         SolicitudAtencionBL.Instancia.AsignarMedico(solicitud);
 
-                        var response = EnviarNotificacion(solicitud, notificacion.CodigoGcm);
+                        string msj = string.Format(
+                            " Estimado {0}, su solicitud ha sido aceptada.\n Le atenderá el Dr. {1}.\n Su cita se realizará el {2} {3}.\n\n Gracias.",
+                            solicitud.ClienteUserName, solicitud.EspecialistaNombre,
+                            solicitud.FechaCita.GetDate(), solicitud.HoraCita);
+
+                        var response = EnviarNotificacion(solicitud.Id, msj, notificacion.CodigoGcm);
                         if (!response.Success)
                             throw new Exception(response.Message);
                     }
@@ -204,24 +234,20 @@ namespace GAMD.WebApi.Controllers
             }
         }
 
-        private JsonResponse EnviarNotificacion(SolicitudAtencion solicitud, string codigoGcm)
+        private JsonResponse EnviarNotificacion(int solicitudId, string mensaje, string codigoGcm)
         {
             var jsonResponse = new JsonResponse { Success = false };
             string GCM_URL = ConfigurationManager.AppSettings.Get("GCM_URL");
             string collapseKey = DateTime.Now.GetDateTime(false);
             LogError("codigoGcm = " + codigoGcm);
 
-            string mensaje =
-                string.Format(
-                    " Estimado {0}, su solicitud ha sido aceptada.\n Le atenderá el Dr. {1}.\n Su cita se realizará el {2}.\n\n Gracias.",
-                    solicitud.ClienteUserName, solicitud.EspecialistaNombre, solicitud.FechaCita.GetDateTime(false));
             LogError("message = " + mensaje);
-            LogError("requestCode = " + solicitud.Id);
+            LogError("requestCode = " + solicitudId);
 
             var data = new Dictionary<string, string>
             {
                 {"data.message", HttpUtility.UrlEncode(mensaje)},
-                {"data.requestCode", solicitud.Id.ToString()}
+                {"data.requestCode", solicitudId.ToString()}
             };
 
             var sb = new StringBuilder();
@@ -270,6 +296,7 @@ namespace GAMD.WebApi.Controllers
                 }
             }
             LogError("jsonResponse.message = " + jsonResponse.Message);
+
             return jsonResponse;
         }
 

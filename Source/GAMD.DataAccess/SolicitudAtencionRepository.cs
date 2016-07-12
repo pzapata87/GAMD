@@ -76,7 +76,11 @@ namespace GAMD.DataAccess
                             HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
                             Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
                             Longitud = lector.GetInt32(lector.GetOrdinal("Longitud")),
-                            ClienteId = lector.GetInt32(lector.GetOrdinal("ClienteId"))
+                            ClienteId = lector.GetInt32(lector.GetOrdinal("ClienteId")),
+                            ClienteUserName = lector.GetString(lector.GetOrdinal("ClienteUserName")),
+                            EspecialistaId = lector.GetInt32(lector.GetOrdinal("EspecialistaId")),
+                            ClienteNombre = lector.GetString(lector.GetOrdinal("NombreCliente")),
+                            EspecialistaNombre = lector.GetString(lector.GetOrdinal("NombreEspecialista"))
                         };
                     }
                 }
