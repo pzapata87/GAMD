@@ -12,9 +12,14 @@ namespace GAMD.Business.Logic
             return SolicitudAtencionRepository.Instancia.Add(solicitud);
         }
 
-        public SolicitudAtencion GetCita(int clienteId)
+        public SolicitudAtencion GetCita(int solicitudId)
         {
-            return SolicitudAtencionRepository.Instancia.GetCita(clienteId);
+            return SolicitudAtencionRepository.Instancia.GetCita(solicitudId);
+        }
+
+        public SolicitudAtencion GetCitaPorCliente(int clienteId)
+        {
+            return SolicitudAtencionRepository.Instancia.GetCitaPorCliente(clienteId);
         }
 
         public void UpdateEstado(int solicitudId, int estadoSolicitud, string observacion)

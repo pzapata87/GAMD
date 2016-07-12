@@ -32,6 +32,7 @@ namespace GAMD.DataAccess
                         {
                             Id = lector.GetInt32(lector.GetOrdinal("Id")),
                             Username = lector.GetString(lector.GetOrdinal("Username")),
+                            TipoUsuario = lector.GetInt32(lector.GetOrdinal("TipoUsuario")),
                             Persona = new Persona
                             {
                                 Nombre = lector.GetString(lector.GetOrdinal("Nombre")),

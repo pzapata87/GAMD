@@ -7,6 +7,7 @@
         public string Password { get; set; }
         public int PersonaId { get; set; }
         public int Estado { get; set; }
+        public int TipoUsuario { get; set; }
 
         public virtual Persona Persona { get; set; }
     }

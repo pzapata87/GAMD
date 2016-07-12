@@ -51,11 +51,45 @@ namespace GAMD.DataAccess
             }
         }
 
-        public SolicitudAtencion GetCita(int clienteId)
+        public SolicitudAtencion GetCita(int solicitudId)
         {
             SolicitudAtencion solicitud = null;
 
-            using (var comando = _database.GetStoredProcCommand("Get_CitaAtencion"))
+            using (var comando = _database.GetStoredProcCommand("Get_CitaAtencionPorId"))
+            {
+                _database.AddInParameter(comando, "@ClienteId", DbType.Int32, solicitudId);
+
+                using (var lector = _database.ExecuteReader(comando))
+                {
+                    if (lector.Read())
+                    {
+                        solicitud = new SolicitudAtencion
+                        {
+                            Id = lector.GetInt32(lector.GetOrdinal("Id")),
+                            NumSolicitud = lector.GetString(lector.GetOrdinal("NumSolicitud")),
+                            Direccion = lector.GetString(lector.GetOrdinal("Direccion")),
+                            ServicioId = lector.GetString(lector.GetOrdinal("ServicioId")),
+                            Sintomas = lector.GetString(lector.GetOrdinal("Sintomas")),
+                            FechaSolicitud = lector.GetDateTime(lector.GetOrdinal("FechaSolicitud")),
+                            EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
+                            FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
+                            HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
+                            Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetInt32(lector.GetOrdinal("Longitud")),
+                            ClienteId = lector.GetInt32(lector.GetOrdinal("ClienteId"))
+                        };
+                    }
+                }
+            }
+
+            return solicitud;
+        }
+
+        public SolicitudAtencion GetCitaPorCliente(int clienteId)
+        {
+            SolicitudAtencion solicitud = null;
+
+            using (var comando = _database.GetStoredProcCommand("Get_CitaAtencionPorCliente"))
             {
                 _database.AddInParameter(comando, "@ClienteId", DbType.Int32, clienteId);
 

@@ -26,7 +26,7 @@ namespace GAMD.WebApi.Controllers
 
             try
             {
-                var citaPendiente = SolicitudAtencionBL.Instancia.GetCita(solicitudDto.ClienteId);
+                var citaPendiente = SolicitudAtencionBL.Instancia.GetCitaPorCliente(solicitudDto.ClienteId);
 
                 if (citaPendiente == null)
                 {
@@ -47,11 +47,12 @@ namespace GAMD.WebApi.Controllers
 
                     int id = SolicitudAtencionBL.Instancia.Add(solicitud);
                     solicitud.Id = id;
-                    jsonResponse.Success = true;
 
                     int radio = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Radio"));
                     var list = EspecialistaBL.Instancia.GetEspecialistas(solicitud.Latitud, solicitud.Longitud, radio);
+
                     jsonResponse.Data = list;
+                    jsonResponse.Success = true;
 
                     // Se crea una tarea para asignar un médico a la solicitud
                     Task.Run(() => AsignarMedico(solicitud, list));
@@ -98,6 +99,7 @@ namespace GAMD.WebApi.Controllers
             try
             {
                 SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Activa.GetNumberValue(), null);
+                var cliente = SolicitudAtencionBL.Instancia.GetCita(solicitudId);
                 jsonResponse.Success = true;
                 //TODo: Enviar Notificacion al cliente
             }
