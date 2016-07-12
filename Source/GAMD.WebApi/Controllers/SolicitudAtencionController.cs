@@ -149,6 +149,26 @@ namespace GAMD.WebApi.Controllers
             return jsonResponse;
         }
 
+        [HttpPost]
+        public JsonResponse GetSolicitudesActivas(int especialistaId)
+        {
+            var jsonResponse = new JsonResponse { Success = false };
+
+            try
+            {
+                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Activa.GetNumberValue(), especialistaId);
+                jsonResponse.Success = true;
+                jsonResponse.Data = list;
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return jsonResponse;
+        }
+
         #region Metodos Privados
 
         private void AsignarMedico(SolicitudAtencion solicitud, List<Especialista> especialistaList)
