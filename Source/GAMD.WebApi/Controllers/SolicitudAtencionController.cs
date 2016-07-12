@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,11 +30,6 @@ namespace GAMD.WebApi.Controllers
 
                 if (citaPendiente == null)
                 {
-                    var fechaStr = solicitudDto.FechaAtencion.Trim().Split('/');
-                    var añoHoraStr = fechaStr[2].Split(' ');
-                    var fechaCita = new DateTime(Convert.ToInt32(añoHoraStr[0]), Convert.ToInt32(fechaStr[1]),
-                        Convert.ToInt32(fechaStr[0]));
-
                     //TODO:Colocar en AutoMapper;
                     var solicitud = new SolicitudAtencion
                     {
@@ -45,7 +41,8 @@ namespace GAMD.WebApi.Controllers
                         Latitud = solicitudDto.Latitud,
                         Longitud = solicitudDto.Longitud,
                         ClienteUserName = solicitudDto.ClienteUserName,
-                        FechaCita = fechaCita
+                        FechaCita = DateTime.ParseExact(solicitudDto.FechaAtencion, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        HoraCita = solicitudDto.HoraAtencion
                     };
 
                     int id = SolicitudAtencionBL.Instancia.Add(solicitud);

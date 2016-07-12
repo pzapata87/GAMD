@@ -12,5 +12,6 @@
         public decimal Longitud { get; set; }
         public string ClienteUserName { get; set; }
         public string FechaAtencion { get; set; }
+        public string HoraAtencion { get; set; }
     }
 }

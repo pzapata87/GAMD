@@ -26,6 +26,7 @@ namespace GAMD.DataAccess
                 _database.AddInParameter(comando, "@ClienteId", DbType.Int32, solicitud.ClienteId);
                 _database.AddInParameter(comando, "@FechaSolicitud", DbType.DateTime, solicitud.FechaSolicitud);
                 _database.AddInParameter(comando, "@FechaCita", DbType.DateTime, solicitud.FechaCita);
+                _database.AddInParameter(comando, "@HoraCita", DbType.String, solicitud.HoraCita);
                 _database.AddInParameter(comando, "@Direccion", DbType.String, solicitud.Direccion);
                 _database.AddInParameter(comando, "@CodServicio", DbType.String, solicitud.ServicioId);
                 _database.AddInParameter(comando, "@Sintomas", DbType.String, solicitud.Sintomas);
@@ -71,6 +72,7 @@ namespace GAMD.DataAccess
                             FechaSolicitud = lector.GetDateTime(lector.GetOrdinal("FechaSolicitud")),
                             EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
                             FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
+                            HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
                             Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
                             Longitud = lector.GetInt32(lector.GetOrdinal("Longitud"))
                         };
@@ -104,6 +106,7 @@ namespace GAMD.DataAccess
                             FechaSolicitud = lector.GetDateTime(lector.GetOrdinal("FechaSolicitud")),
                             EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
                             FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
+                            HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
                             Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
                             Longitud = lector.GetInt32(lector.GetOrdinal("Longitud"))
                         });
