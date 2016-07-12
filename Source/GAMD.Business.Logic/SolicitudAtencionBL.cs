@@ -17,9 +17,9 @@ namespace GAMD.Business.Logic
             return SolicitudAtencionRepository.Instancia.GetCita(clienteId);
         }
 
-        public void UpdateEstado(int solicitudId, int estadoSolicitud)
+        public void UpdateEstado(int solicitudId, int estadoSolicitud, string observacion)
         {
-            SolicitudAtencionRepository.Instancia.UpdateEstado(solicitudId, estadoSolicitud);
+            SolicitudAtencionRepository.Instancia.UpdateEstado(solicitudId, estadoSolicitud, observacion);
         }
 
         public List<SolicitudAtencion> GetSolicitudes(int estadoSolicitud, int especialistaId)

@@ -51,13 +51,13 @@ namespace GAMD.DataAccess
                             list.Add(new Encuesta
                             {
                                 Id = lector.GetInt32(lector.GetOrdinal("EncuestaId")),
-                                Nombre = lector.GetString(lector.GetOrdinal("Nombre")),
+                                Nombre = lector.GetString(lector.GetOrdinal("NombreEcuenta")),
                                 PreguntaList = new List<PreguntaEncuesta>
                                 {
                                     new PreguntaEncuesta
                                     {
                                         Id = lector.GetInt32(lector.GetOrdinal("PreguntaId")),
-                                        Nombre = lector.GetString(lector.GetOrdinal("Nombre"))
+                                        Nombre = lector.GetString(lector.GetOrdinal("NombrePregunta"))
                                     }
                                 }
                             });

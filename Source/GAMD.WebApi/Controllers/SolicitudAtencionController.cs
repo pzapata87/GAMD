@@ -78,7 +78,7 @@ namespace GAMD.WebApi.Controllers
 
             try
             {
-                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Cancelada.GetNumberValue());
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Cancelada.GetNumberValue(), null);
                 jsonResponse.Success = true;
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace GAMD.WebApi.Controllers
 
             try
             {
-                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Activa.GetNumberValue());
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Activa.GetNumberValue(), null);
                 jsonResponse.Success = true;
                 //TODo: Enviar Notificacion al cliente
             }
@@ -111,13 +111,13 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
-        public JsonResponse FinalizarCita(int solicitudId)
+        public JsonResponse FinalizarCita(int solicitudId, string observacion)
         {
             var jsonResponse = new JsonResponse { Success = false };
 
             try
             {
-                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Finalizada.GetNumberValue());
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Finalizada.GetNumberValue(), observacion);
                 jsonResponse.Success = true;
             }
             catch (Exception ex)

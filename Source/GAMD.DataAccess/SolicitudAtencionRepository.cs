@@ -39,12 +39,13 @@ namespace GAMD.DataAccess
             return id;
         }
 
-        public void UpdateEstado(int solicitudId, int estadoSolicitud)
+        public void UpdateEstado(int solicitudId, int estadoSolicitud, string observacion)
         {
             using (var comando = _database.GetStoredProcCommand("Update_EstadoSolicitudAtencion"))
             {
                 _database.AddInParameter(comando, "@Id", DbType.Int32, solicitudId);
                 _database.AddInParameter(comando, "@EstadoSolicitud", DbType.Int32, estadoSolicitud);
+                _database.AddInParameter(comando, "@Observacion", DbType.String, observacion);
 
                 _database.ExecuteNonQuery(comando);
             }
