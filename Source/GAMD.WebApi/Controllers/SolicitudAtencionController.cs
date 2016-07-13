@@ -163,7 +163,7 @@ namespace GAMD.WebApi.Controllers
 
             try
             {
-                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Pendiente.GetNumberValue(), Convert.ToInt32(solicitudDto.EspecialidadId));
+                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Pendiente.GetNumberValue(), solicitudDto.EspecialistaId);
                 jsonResponse.Success = true;
                 jsonResponse.Data = list;
             }
@@ -183,7 +183,7 @@ namespace GAMD.WebApi.Controllers
 
             try
             {
-                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Activa.GetNumberValue(), Convert.ToInt32(solicitudDto.EspecialidadId));
+                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Activa.GetNumberValue(), solicitudDto.EspecialistaId);
                 jsonResponse.Success = true;
                 jsonResponse.Data = list;
             }

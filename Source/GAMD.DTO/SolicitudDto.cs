@@ -15,5 +15,6 @@
         public string HoraAtencion { get; set; }
         public int SolicitudId { get; set; }
         public string Observacion { get; set; }
+        public int EspecialistaId { get; set; }
     }
 }
