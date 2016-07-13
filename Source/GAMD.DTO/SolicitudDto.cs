@@ -13,5 +13,7 @@
         public string ClienteUserName { get; set; }
         public string FechaAtencion { get; set; }
         public string HoraAtencion { get; set; }
+        public int SolicitudId { get; set; }
+        public string Observacion { get; set; }
     }
 }

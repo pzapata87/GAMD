@@ -73,13 +73,13 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
-        public JsonResponse CancelarCita(int solicitudId)
+        public JsonResponse CancelarCita(SolicitudDto solicitudDto)
         {
             var jsonResponse = new JsonResponse { Success = false };
 
             try
             {
-                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Cancelada.GetNumberValue(), null);
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudDto.SolicitudId, EstadoSolicitud.Cancelada.GetNumberValue(), null);
                 jsonResponse.Success = true;
             }
             catch (Exception ex)
@@ -92,14 +92,14 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
-        public JsonResponse ConfirmarLlegadaCita(int solicitudId)
+        public JsonResponse ConfirmarLlegadaCita(SolicitudDto solicitudDto)
         {
             var jsonResponse = new JsonResponse {Success = false};
 
             try
             {
-                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Activa.GetNumberValue(), null);
-                var cita = SolicitudAtencionBL.Instancia.GetCita(solicitudId);
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudDto.SolicitudId, EstadoSolicitud.Activa.GetNumberValue(), null);
+                var cita = SolicitudAtencionBL.Instancia.GetCita(solicitudDto.SolicitudId);
 
                 var notificacion = NotificacionBL.Instancia.GetByUsername(cita.ClienteUserName);
                 if (notificacion != null)
