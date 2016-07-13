@@ -157,13 +157,13 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
-        public JsonResponse GetSolicitudesPendientes(int especialistaId)
+        public JsonResponse GetSolicitudesPendientes(SolicitudDto solicitudDto)
         {
             var jsonResponse = new JsonResponse { Success = false };
 
             try
             {
-                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Pendiente.GetNumberValue(), especialistaId);
+                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Pendiente.GetNumberValue(), Convert.ToInt32(solicitudDto.EspecialidadId));
                 jsonResponse.Success = true;
                 jsonResponse.Data = list;
             }
@@ -177,13 +177,13 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
-        public JsonResponse GetSolicitudesActivas(int especialistaId)
+        public JsonResponse GetSolicitudesActivas(SolicitudDto solicitudDto)
         {
             var jsonResponse = new JsonResponse { Success = false };
 
             try
             {
-                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Activa.GetNumberValue(), especialistaId);
+                var list = SolicitudAtencionBL.Instancia.GetSolicitudes(EstadoSolicitud.Activa.GetNumberValue(), Convert.ToInt32(solicitudDto.EspecialidadId));
                 jsonResponse.Success = true;
                 jsonResponse.Data = list;
             }
