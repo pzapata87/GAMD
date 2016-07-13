@@ -57,7 +57,7 @@ namespace GAMD.DataAccess
 
             using (var comando = _database.GetStoredProcCommand("Get_CitaAtencionPorId"))
             {
-                _database.AddInParameter(comando, "@ClienteId", DbType.Int32, solicitudId);
+                _database.AddInParameter(comando, "@SolicitudId", DbType.Int32, solicitudId);
 
                 using (var lector = _database.ExecuteReader(comando))
                 {

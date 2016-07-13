@@ -125,14 +125,14 @@ namespace GAMD.WebApi.Controllers
         }
 
         [HttpPost]
-        public JsonResponse FinalizarCita(int solicitudId, string observacion)
+        public JsonResponse FinalizarCita(SolicitudDto solicitudDto)
         {
             var jsonResponse = new JsonResponse { Success = false };
 
             try
             {
-                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudId, EstadoSolicitud.Finalizada.GetNumberValue(), observacion);
-                var cita = SolicitudAtencionBL.Instancia.GetCita(solicitudId);
+                SolicitudAtencionBL.Instancia.UpdateEstado(solicitudDto.SolicitudId, EstadoSolicitud.Finalizada.GetNumberValue(), solicitudDto.Observacion);
+                var cita = SolicitudAtencionBL.Instancia.GetCita(solicitudDto.SolicitudId);
 
                 var notificacion = NotificacionBL.Instancia.GetByUsername(cita.ClienteUserName);
                 if (notificacion != null)
