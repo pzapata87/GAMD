@@ -74,8 +74,8 @@ namespace GAMD.DataAccess
                             EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
                             FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
                             HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
-                            Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
-                            Longitud = lector.GetInt32(lector.GetOrdinal("Longitud")),
+                            Latitud = lector.GetDecimal(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetDecimal(lector.GetOrdinal("Longitud")),
                             ClienteId = lector.GetInt32(lector.GetOrdinal("ClienteId")),
                             ClienteUserName = lector.GetString(lector.GetOrdinal("ClienteUserName")),
                             EspecialistaId = lector.GetInt32(lector.GetOrdinal("EspecialistaId")),
@@ -112,8 +112,8 @@ namespace GAMD.DataAccess
                             EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
                             FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
                             HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
-                            Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
-                            Longitud = lector.GetInt32(lector.GetOrdinal("Longitud"))
+                            Latitud = lector.GetDecimal(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetDecimal(lector.GetOrdinal("Longitud"))
                         };
                     }
                 }
@@ -146,8 +146,8 @@ namespace GAMD.DataAccess
                             EstadoSolicitud = lector.GetInt32(lector.GetOrdinal("EstadoSolicitud")),
                             FechaCita = lector.GetDateTime(lector.GetOrdinal("FechaCita")),
                             HoraCita = lector.GetString(lector.GetOrdinal("HoraCita")),
-                            Latitud = lector.GetInt32(lector.GetOrdinal("Latitud")),
-                            Longitud = lector.GetInt32(lector.GetOrdinal("Longitud"))
+                            Latitud = lector.GetDecimal(lector.GetOrdinal("Latitud")),
+                            Longitud = lector.GetDecimal(lector.GetOrdinal("Longitud"))
                         });
                     }
                 }
