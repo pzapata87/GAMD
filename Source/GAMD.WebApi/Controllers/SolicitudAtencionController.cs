@@ -106,7 +106,7 @@ namespace GAMD.WebApi.Controllers
                 {
                     string msj = string.Format(" Estimado {0}, su médico {1}.\n acaba de llegar para su cita pactada.",
                         cita.ClienteNombre, cita.EspecialistaNombre);
-                    EnviarNotificacion(cita.Id, msj, notificacion.CodigoGcm);
+                    EnviarNotificacion(cita.Id, msj, notificacion.CodigoGcm, (int)TipoNotificacion.Confirmacion);
                 }
                 else
                 {
@@ -138,7 +138,7 @@ namespace GAMD.WebApi.Controllers
                 if (notificacion != null)
                 {
                     string msj = string.Format(" Estimado {0}, su cita a finalizado.", cita.ClienteNombre);
-                    EnviarNotificacion(cita.Id, msj, notificacion.CodigoGcm);
+                    EnviarNotificacion(cita.Id, msj, notificacion.CodigoGcm, (int)TipoNotificacion.Finalizacion);
                 }
                 else
                 {
@@ -234,7 +234,7 @@ namespace GAMD.WebApi.Controllers
             }
         }
 
-        private JsonResponse EnviarNotificacion(int solicitudId, string mensaje, string codigoGcm)
+        private JsonResponse EnviarNotificacion(int solicitudId, string mensaje, string codigoGcm, int tipo = (int)TipoNotificacion.Aviso)
         {
             var jsonResponse = new JsonResponse { Success = false };
             string GCM_URL = ConfigurationManager.AppSettings.Get("GCM_URL");
@@ -243,11 +243,13 @@ namespace GAMD.WebApi.Controllers
 
             LogError("message = " + mensaje);
             LogError("requestCode = " + solicitudId);
+            LogError("tipo = " + tipo);
 
             var data = new Dictionary<string, string>
             {
                 {"data.message", HttpUtility.UrlEncode(mensaje)},
-                {"data.requestCode", solicitudId.ToString()}
+                {"data.requestCode", solicitudId.ToString()},
+                {"data.tipo", tipo.ToString()}
             };
 
             var sb = new StringBuilder();

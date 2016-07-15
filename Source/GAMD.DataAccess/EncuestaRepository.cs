@@ -79,6 +79,28 @@ namespace GAMD.DataAccess
             return list;
         }
 
+        public List<PreguntaEncuesta> GetPreguntas()
+        {
+            var list = new List<PreguntaEncuesta>();
+            using (var comando = _database.GetStoredProcCommand("Get_Encuestas"))
+            {
+                using (var lector = _database.ExecuteReader(comando))
+                {
+                    while (lector.Read())
+                    {
+                        list.Add(new PreguntaEncuesta
+                        {
+                            EncuestaId = lector.GetInt32(lector.GetOrdinal("EncuestaId")),
+                            Id = lector.GetInt32(lector.GetOrdinal("PreguntaId")),
+                            Nombre = lector.GetString(lector.GetOrdinal("NombrePregunta"))
+                        });
+                    }
+                }
+            }
+
+            return list;
+        }
+
         #endregion
     }
 }

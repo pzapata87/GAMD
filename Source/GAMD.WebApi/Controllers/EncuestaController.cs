@@ -50,5 +50,25 @@ namespace GAMD.WebApi.Controllers
 
             return jsonResponse;
         }
+
+        [HttpPost]
+        public JsonResponse GetPreguntas()
+        {
+            var jsonResponse = new JsonResponse { Success = false };
+
+            try
+            {
+                var list = EncuestaBL.Instancia.GetPreguntas();
+                jsonResponse.Success = true;
+                jsonResponse.Data = list;
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return jsonResponse;
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace GAMD.Business.Logic
         {
             return EncuestaRepository.Instancia.GetEncuestas();
         }
+
+        public List<PreguntaEncuesta> GetPreguntas()
+        {
+            return EncuestaRepository.Instancia.GetPreguntas();
+        }
     }
 }
