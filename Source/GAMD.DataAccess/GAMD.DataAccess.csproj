@@ -60,6 +60,7 @@
     <Compile Include="NotificacionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolicitudAtencionRepository.cs" />
+    <Compile Include="TipoParametroRepository.cs" />
     <Compile Include="UsuarioRepository.cs" />
   </ItemGroup>
   <ItemGroup>

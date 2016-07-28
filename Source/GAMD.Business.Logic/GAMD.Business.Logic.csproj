@@ -50,6 +50,7 @@
     <Compile Include="NotificacionBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolicitudAtencionBL.cs" />
+    <Compile Include="TipoParametroBL.cs" />
     <Compile Include="UsuarioBL.cs" />
   </ItemGroup>
   <ItemGroup>
