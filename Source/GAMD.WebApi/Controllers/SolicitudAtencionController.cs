@@ -216,9 +216,21 @@ namespace GAMD.WebApi.Controllers
                         string msj = string.Format(
                             " Estimado {0}, su solicitud ha sido aceptada.\n Le atenderá el Dr. {1}.\n Su cita se realizará el {2} {3}.\n\n Gracias.",
                             solicitud.ClienteUserName, solicitud.EspecialistaNombre,
-                            solicitud.FechaCita.GetDate(), solicitud.HoraCita);
+                            solicitud.FechaCita.GetDate(), solicitud.HoraCita);                        
 
                         var response = EnviarNotificacion(solicitud.Id, msj, notificacion.CodigoGcm);
+                        if (!response.Success)
+                            throw new Exception(response.Message);
+
+                        notificacion = NotificacionBL.Instancia.GetByUsername(especialistaSel.Email);
+
+                        string msjEspecialista = string.Format(
+                                                    " Estimado {0}, usted ha sido asignado para atender a {1}.\n Se debe atender la cita el {2} {3}.\n\n Gracias.",
+                                                    solicitud.EspecialistaNombre, solicitud.ClienteUserName,
+                                                    solicitud.FechaCita.GetDate(), solicitud.HoraCita);
+                        LogError(msjEspecialista);
+
+                        response = EnviarNotificacion(solicitud.Id, msjEspecialista, notificacion.CodigoGcm);
                         if (!response.Success)
                             throw new Exception(response.Message);
                     }
