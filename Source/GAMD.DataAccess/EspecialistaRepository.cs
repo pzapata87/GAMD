@@ -37,7 +37,8 @@ namespace GAMD.DataAccess
                             Apellido = lector.GetString(lector.GetOrdinal("Apellido")),
                             Direccion = lector.GetString(lector.GetOrdinal("Direccion")),
                             Latitud = lector.GetDecimal(lector.GetOrdinal("Latitud")),
-                            Longitud = lector.GetDecimal(lector.GetOrdinal("Longitud"))
+                            Longitud = lector.GetDecimal(lector.GetOrdinal("Longitud")),
+                            Email = lector.GetString(lector.GetOrdinal("Email"))
                         });
                     }
                 }
